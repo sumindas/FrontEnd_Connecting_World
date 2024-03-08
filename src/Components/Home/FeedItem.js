@@ -1,11 +1,10 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faComment,
-  faExclamation,
-  faExclamationTriangle,
-  faHeart,
+ faComment,
+ faExclamation,
+ faExclamationTriangle,
+ faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { BASE_URL } from "../../Api/api";
@@ -13,19 +12,18 @@ import CommentsList from "../Comments/Comments";
 import ReportModal from "./Report";
 
 const FeedItem = ({ post }) => {
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [commentCount, setCommentCount] = useState(0);
-  console.log("=====", post);
-  const userId = localStorage.getItem("userId");
-  const [showComments, setShowComments] = useState(false);
-  const [reported, setReported] = useState(() => {
+ const [liked, setLiked] = useState(false);
+ const [likeCount, setLikeCount] = useState(0);
+ const [commentCount, setCommentCount] = useState(0);
+ const userId = localStorage.getItem("userId");
+ const [showComments, setShowComments] = useState(false);
+ const [reported, setReported] = useState(() => {
     const storedReported = localStorage.getItem(`reported_${post.id}`);
     return storedReported ? JSON.parse(storedReported) : false;
  });
-  const [showReportModal, setShowReportModal] = useState(false);
+ const [showReportModal, setShowReportModal] = useState(false);
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchLikeAndCommentInfo = async () => {
       try {
         const likeResponse = await axios.get(`${BASE_URL}/likes/`, {
@@ -48,9 +46,9 @@ const FeedItem = ({ post }) => {
     };
 
     fetchLikeAndCommentInfo();
-  }, [post, userId]);
+ }, [post, userId]);
 
-  const handleLikeClick = async () => {
+ const handleLikeClick = async () => {
     setLiked(!liked);
     try {
       const response = await axios.post(`${BASE_URL}/likes/`, {
@@ -66,31 +64,33 @@ const FeedItem = ({ post }) => {
     } catch (error) {
       console.error("Error toggling like:", error);
     }
-  };
-  const toggleCommentsVisibility = () => {
+ };
+
+ const toggleCommentsVisibility = () => {
     setShowComments(!showComments);
-  };
+ };
 
-  const handleReportClick = () => {
+ const handleReportClick = () => {
     setShowReportModal(true);
-  };
-  const handleCloseModal = () => {
-    setShowReportModal(false);
-  };
+ };
 
-  const handleReportSuccess = () => {
+ const handleCloseModal = () => {
+    setShowReportModal(false);
+ };
+
+ const handleReportSuccess = () => {
     setReported(true);
     localStorage.setItem(`reported_${post.id}`, JSON.stringify(true));
     setShowReportModal(false);
  };
 
-  return (
+ return (
     <div className="bg-white shadow rounded-lg p-4 my-4">
       {/* User Profile Section */}
       <div className="flex items-center">
-        {post.user && post.user.userprofile.profile_image && (
+        {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
           <img
-            src={post.user.userprofile.profile_image}
+            src={`${BASE_URL}${post.user.userprofile.profile_image}`}
             alt={`Profile image of ${post.user.username}`}
             className="w-10 h-10 rounded-full mr-4" // Adjust the size and styling as needed
           />
@@ -111,7 +111,7 @@ const FeedItem = ({ post }) => {
           post.images.map((imageObj, index) => (
             <img
               key={index}
-              src={imageObj.images_url}
+              src={`${BASE_URL}${imageObj.images_url}`}
               alt={`Image ${index}`}
               className="media-item"
             />
@@ -122,7 +122,7 @@ const FeedItem = ({ post }) => {
           post.videos.length > 0 &&
           post.videos.map((videoObj, index) => (
             <video key={index} controls className="media-item">
-              <source src={videoObj.video_url} type="video/mp4" />
+              <source src={`${BASE_URL}${videoObj.video_url}`} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           ))}
@@ -160,7 +160,7 @@ const FeedItem = ({ post }) => {
         <ReportModal postId={post.id} onClose={handleCloseModal} onSuccess={handleReportSuccess} />
       )}
     </div>
-  );
+ );
 };
 
 export default FeedItem;
