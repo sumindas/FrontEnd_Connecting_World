@@ -119,7 +119,7 @@ export default function UserProfile() {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/${userProfileId}/`,
+        `${BASE_URL}/userupdate/${userProfileId}/`,
         formData,
         {
           headers: {

@@ -59,6 +59,7 @@ export default function ChatBox() {
         socketRef.current = new WebSocket(
           `wss://crickstore.shop/ws/chat/${id}/?token=${token}`
         );
+        
 
         socketRef.current.onmessage = (event) => {
           try {

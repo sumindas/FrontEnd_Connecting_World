@@ -41,7 +41,7 @@ const NotificationComponent = () => {
   }, [id]);
 
   useEffect(() => {
-    const socket = new WebSocket(`wss://crickstore.shop/ws/notifications/${id}/?token=${token}`);
+    const socket = new WebSocket(`WSS://crickstore.shop/ws/notifications/${id}/?token=${token}`);
     socket.onopen = (event) => {
       console.log("WebSocket connection opened:", event);
      };
