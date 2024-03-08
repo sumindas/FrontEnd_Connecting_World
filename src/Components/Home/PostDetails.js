@@ -15,7 +15,7 @@ const SinglePostDetails = () => {
   const userPosts = useSelector((state) => state.post[userId] || []);
   const post = userPosts.find((p) => p.id === postId);
   console.log("Post:", post);
-  console.log("Image Path:", post.user.userprofile.profile_image);
+  console.log("Image Path:", post?.user?.userprofile?.profile_image);
 
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
