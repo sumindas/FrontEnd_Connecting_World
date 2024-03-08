@@ -55,7 +55,6 @@ function CommentsList({ post }) {
     }
   };
 
-  // sourcery skip: avoid-function-declarations-in-blocks
   function ReplyForm({ commentId, userId, onSubmit }) {
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -80,29 +79,26 @@ function CommentsList({ post }) {
 
     return (
       <form onSubmit={handleSubmit} className="flex items-center">
-        <input
-          type="text"
-          name="comment"
-          placeholder="Write a reply"
-          className="flex-grow py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
-        <button
-          type="submit"
-          className="ml-4 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        >
-          Reply
-        </button>
-      </form>
+      <input
+        type="text"
+        name="comment"
+        placeholder="Write a reply"
+        className="flex-grow py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      />
+      <button
+        type="submit"
+        className="ml-4 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+      >
+        Reply
+      </button>
+    </form>
     );
   }
 
   return (
     <div className="w-full bg-white p-4 rounded-lg flex flex-col gap-4 m-4">
       <div className="writebox">
-        <form
-          onSubmit={handleCommentSubmit}
-          className="flex flex-col sm:flex-row"
-        >
+        <form onSubmit={handleCommentSubmit} className="flex flex-col">
           <div className="flex items-center">
             {currentUser && currentUser.user_profile ? (
               <img
@@ -115,11 +111,11 @@ function CommentsList({ post }) {
               type="text"
               name="comment"
               placeholder="Write a comment"
-              className="flex-grow py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+              className="flex-grow py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
               type="submit"
-              className="ml-2 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 sm:text-sm sm:py-0.5 sm:px-1 sm:text-xs"
+              className="ml-2 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
               Comment
             </button>
@@ -129,6 +125,7 @@ function CommentsList({ post }) {
       {comments.length === 0 ? (
         <p className="text-center">No comments yet.</p>
       ) : (
+
         comments.map((comment) => (
           <div key={comment.id} className="flex flex-col mb-4">
             <div className="flex items-center">
@@ -140,10 +137,10 @@ function CommentsList({ post }) {
                 />
               ) : null}
               <div>
-                <h5 className="font-semibold text-sm sm:text-xs">
+                <h5 className="font-semibold text-sm">
                   {comment.user ? comment.user.username : "Anonymous"}
                 </h5>
-                <p className="text-sm sm:text-xs">{comment.content}</p>
+                <p className="text-sm">{comment.content}</p>
               </div>
             </div>
             {comment.replies?.map((reply) => (
@@ -156,10 +153,10 @@ function CommentsList({ post }) {
                   />
                 ) : null}
                 <div>
-                  <h5 className="font-semibold text-sm sm:text-xs">
+                  <h5 className="font-semibold text-sm">
                     {reply.user ? reply.user.username : "Anonymous"}
                   </h5>
-                  <p className="text-sm sm:text-xs">{reply.content}</p>
+                  <p className="text-sm">{reply.content}</p>
                 </div>
               </div>
             ))}
