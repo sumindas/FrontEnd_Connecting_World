@@ -3,13 +3,14 @@ import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { v4 } from 'uuid'
+import { BASE_URL } from "../../Api/api";
 
 const ZegoVcall = () => {
   const { userId, id } = useParams();
   const VURL = 'http://localhost:5173'
   const navigate = useNavigate();
   const [newMessage, setNewMessage] = useState(
-    `${VURL}/meeting/${userId}/${id}`
+    `${BASE_URL}/meeting/${userId}/${id}`
   );
   const token = localStorage.getItem('token');
   const [socket, setSocket] = useState(null);
