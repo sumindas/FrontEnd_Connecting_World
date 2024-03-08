@@ -88,7 +88,7 @@ const FeedItem = ({ post }) => {
     <div className="bg-white shadow rounded-lg p-4 my-4">
       {/* User Profile Section */}
       <div className="flex items-center">
-        {post.user && post.user.userprofile.profile_image && (
+        {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
           <img
             src={post.user.userprofile.profile_image}
             alt={`Profile image of ${post.user.username}`}
