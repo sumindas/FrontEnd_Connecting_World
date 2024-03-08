@@ -97,87 +97,88 @@ function CommentsList({ post }) {
  }
 
  return (
-    <div className="w-full bg-white p-4 rounded-lg flex flex-col gap-4 m-4">
-      <div className="writebox">
-        <form onSubmit={handleCommentSubmit} className="flex flex-col">
-          <div className="flex items-center">
-            {currentUser && currentUser.user_profile ? (
-              <img
-                src={`${BASE_URL}${currentUser.user_profile.profile_image}`}
-                alt=""
-                className="rounded-full w-8 h-8 mr-2"
-              />
-            ) : null}
-            <input
-              type="text"
-              name="comment"
-              placeholder="Write a comment"
-              className="flex-grow py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button
-              type="submit"
-              className="ml-2 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            >
-              Comment
-            </button>
-          </div>
-        </form>
-      </div>
-      {comments.length === 0 ? (
-        <p className="text-center">No comments yet.</p>
-      ) : (
-        comments.map((comment) => (
-          <div key={comment.id} className="flex flex-col mb-4">
-            <div className="flex items-center">
-              {comment.user && comment.user.userprofile ? (
-                <img
+  <div className="w-full bg-white p-4 rounded-lg flex flex-col gap-4 m-4">
+     <div className="writebox">
+       <form onSubmit={handleCommentSubmit} className="flex flex-col sm:flex-row">
+         <div className="flex items-center">
+           {currentUser && currentUser.user_profile ? (
+             <img
+               src={`${BASE_URL}${currentUser.user_profile.profile_image}`}
+               alt=""
+               className="rounded-full w-8 h-8 mr-2"
+             />
+           ) : null}
+           <input
+             type="text"
+             name="comment"
+             placeholder="Write a comment"
+             className="flex-grow py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+           />
+           <button
+             type="submit"
+             className="ml-2 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+           >
+             Comment
+           </button>
+         </div>
+       </form>
+     </div>
+     {comments.length === 0 ? (
+       <p className="text-center">No comments yet.</p>
+     ) : (
+       comments.map((comment) => (
+         <div key={comment.id} className="flex flex-col mb-4">
+           <div className="flex items-center">
+             {comment.user && comment.user.userprofile ? (
+               <img
                  src={`${comment.user.userprofile.profile_image}`}
                  alt=""
                  className="rounded-full w-8 h-8 mr-2"
-                />
-              ) : null}
-              <div>
-                <h5 className="font-semibold text-sm">
+               />
+             ) : null}
+             <div>
+               <h5 className="font-semibold text-sm">
                  {comment.user ? comment.user.username : "Anonymous"}
-                </h5>
-                <p className="text-sm">{comment.content}</p>
-              </div>
-            </div>
-            {comment.replies?.map((reply) => (
-              <div key={reply.id} className="flex items-center ml-4 mt-1">
-                {reply.user && reply.user.userprofile ? (
+               </h5>
+               <p className="text-sm">{comment.content}</p>
+             </div>
+           </div>
+           {comment.replies?.map((reply) => (
+             <div key={reply.id} className="flex items-center ml-4 mt-1">
+               {reply.user && reply.user.userprofile ? (
                  <img
-                    src={`${BASE_URL}${reply.user.userprofile.profile_image}`}
-                    alt=""
-                    className="rounded-full w-8 h-8 mr-2"
+                  src={`${BASE_URL}${reply.user.userprofile.profile_image}`}
+                  alt=""
+                  className="rounded-full w-8 h-8 mr-2"
                  />
-                ) : null}
-                <div>
+               ) : null}
+               <div>
                  <h5 className="font-semibold text-sm">
-                    {reply.user ? reply.user.username : "Anonymous"}
+                  {reply.user ? reply.user.username : "Anonymous"}
                  </h5>
                  <p className="text-sm">{reply.content}</p>
-                </div>
-              </div>
-            ))}
-            <ReplyForm
-              commentId={comment.id}
-              userId={userId}
-              onSubmit={(newReply) => {
-                setComments(
+               </div>
+             </div>
+           ))}
+           <ReplyForm
+             commentId={comment.id}
+             userId={userId}
+             onSubmit={(newReply) => {
+               setComments(
                  comments.map((c) =>
-                    c.id === comment.id
-                      ? { ...c, replies: [...c.replies, newReply] }
-                      : c
+                  c.id === comment.id
+                     ? { ...c, replies: [...c.replies, newReply] }
+                     : c
                  )
-                );
-              }}
-            />
-          </div>
-        ))
-      )}
-    </div>
+               );
+             }}
+           />
+         </div>
+       ))
+     )}
+  </div>
  );
+ 
 }
 
 export default CommentsList;
