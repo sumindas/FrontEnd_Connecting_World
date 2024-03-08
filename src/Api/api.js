@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export const BASE_URL = 'http://crickstore.shop'
+export const BASE_URL = 'https://crickstore.shop'
 
 export const signUpApi = (userData) => axios.post(`${BASE_URL}/signup/`,userData)
 
