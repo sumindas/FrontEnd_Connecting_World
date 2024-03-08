@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleRight, faVideo } from "@fortawesome/free-solid-svg-icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Api/api";
 import "./chatbox.css";
 
@@ -16,9 +16,12 @@ export default function ChatBox() {
   const socketRef = useRef(null);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
+  const navigate = useNavigate()
   
  
-  
+  const handleVcall = useCallback(() => {
+    navigate(`/meeting/${userId}/${id}`);
+  }, []);
    
   useEffect(() => {
     console.log("Component re-rendered with new messages:", messages);
@@ -132,29 +135,18 @@ export default function ChatBox() {
     return <div>Loading...</div>;
   }
 
-  const handleVideoCall = () => {
-    // Assuming you have the ZeeGo Cloud video call invitation link
-    const zeeGoLink = "https://app.zeego.com/join/<room_id>";
+ 
    
-    // Construct the message
-    const message = {
-       user: userId, // The ID of the current user
-       content: `Video call invitation: ${zeeGoLink}`,
-       timestamp: new Date().toISOString(),
-    };
    
-    // Send the message
-    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-       const messageData = JSON.stringify(message);
-       socketRef.current.send(messageData);
-    }
-   };
-   
-  
 
   const profileImage = user?.userprofile?.profile_image;
   const fullName = user?.full_name;
   const username = user?.username;
+
+
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  
 
   
 
@@ -170,7 +162,7 @@ export default function ChatBox() {
           <h5>{username || ""}</h5>
         </div>
         <div className="call-icons">
-          <label className="btn btn-primary" htmlFor="CFile" onClick={handleVideoCall}>
+          <label className="btn btn-primary" htmlFor="CFile" onClick={handleVcall}>
             <FontAwesomeIcon icon={faVideo} />
           </label>
         </div>

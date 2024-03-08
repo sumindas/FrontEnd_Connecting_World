@@ -26,6 +26,7 @@ import PostList from '../Admin/Pages/Reports'
 import { useMediaQuery } from 'react-responsive';
 import NotificationComponent2 from '../Home/NotNew'
 import { useState } from 'react'
+import ZegoVcall from '../Chatbox/ZegoVideoCall'
 
 
 
@@ -98,6 +99,10 @@ export default function LayOut() {
       element : <PostList />
     },
     {
+      path :'/meeting/:userId/:id',
+      element : <ZegoVcall />
+    },
+    {
       path: '/home', 
       element: <Feed />,
       children: [
@@ -113,6 +118,7 @@ export default function LayOut() {
           path: 'chat/:id',
           element: <ChatBox />
         },
+       
         {
           path: 'user/:id', 
           element: <OtherUser />
