@@ -8,13 +8,23 @@ import { useSelector } from "react-redux";
 import CommentsList from "../Comments/Comments";
 
 const PostCard = ({ post }) => {
- const [liked, setLiked] = useState(false);
- const [likeCount, setLikeCount] = useState(0);
- const [commentCount, setCommentCount] = useState(0);
- const [showComments, setShowComments] = useState(false);
- const userId = localStorage.getItem('userId');
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
+  const [showComments, setShowComments] = useState(false);
+  const userId = localStorage.getItem('userId');
 
- useEffect(() => {
+  const replacer = (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (cache.includes(value)) {
+        return '[Circular Reference]';
+      }
+      cache.push(value);
+    }
+    return value;
+  };
+
+  useEffect(() => {
     const fetchLikeAndCommentInfo = async () => {
       try {
         const likeResponse = await axios.get(`${BASE_URL}/likes/`, {
@@ -37,11 +47,13 @@ const PostCard = ({ post }) => {
     };
 
     fetchLikeAndCommentInfo();
- }, [post, userId]);
+  }, [post, userId]);
 
- const handleLikeClick = async () => {
+  const handleLikeClick = async () => {
     setLiked(!liked);
     const dataToSubmit = { postId: post.id, userId: userId };
+
+    console.log("Data to send:", JSON.stringify(dataToSubmit, replacer));
 
     try {
       const response = await axios.post(
@@ -62,23 +74,20 @@ const PostCard = ({ post }) => {
     } catch (error) {
       console.error("Error toggling like:", error);
     }
- };
+  };
 
- const toggleCommentsVisibility = () => {
+  const cache = [];
+
+  const toggleCommentsVisibility = () => {
     setShowComments(!showComments);
- };
+  };
 
- const ensureHttps = (url) => {
-  return url.replace(/^http:\/\//i, 'https://');
-};
-
-
- return (
+  return (
     <div className="bg-white shadow rounded-lg p-4 my-4">
       <div className="flex items-center">
         {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
           <img
-          src={post.user.userprofile.profile_image}
+            src={`${BASE_URL}${post.user.userprofile.profile_image}`}
             alt={`Profile image of ${post.user.username}`}
             className="w-10 h-10 rounded-full mr-4" // Adjust the size and styling as needed
           />
@@ -95,7 +104,7 @@ const PostCard = ({ post }) => {
           post.images.map((imageObj, index) => (
             <img
               key={index}
-              src={imageObj.images_url}
+              src={`${BASE_URL}${imageObj.images_url}`}
               alt={`Image ${index}`}
               className="media-item"
             />
@@ -105,7 +114,10 @@ const PostCard = ({ post }) => {
           post.videos.length > 0 &&
           post.videos.map((videoObj, index) => (
             <video key={index} controls className="media-item">
-              <source src={ensureHttps(`${BASE_URL}${videoObj.video_url}`)} type="video/mp4" />
+              <source
+                src={`${BASE_URL}${videoObj.video_url}`}
+                type="video/mp4"
+              />
               Your browser does not support the video tag.
             </video>
           ))}
@@ -130,7 +142,7 @@ const PostCard = ({ post }) => {
 
       {showComments && <CommentsList post={post} />}
     </div>
- );
+  );
 };
 
 export default PostCard;

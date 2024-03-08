@@ -355,7 +355,7 @@ export default function UserProfile() {
                             htmlFor="dob"
                             className="block text-sm font-medium text-gray-700"
                           >
-                            Date of Birth
+                            Date of Birth(YYY-MM-DD)
                           </label>
                           <input
                             type="text"
