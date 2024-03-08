@@ -1,183 +1,175 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+ faComment,
+ faExclamation,
+ faExclamationTriangle,
+ faHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { BASE_URL } from "../../Api/api";
-import { useSelector } from "react-redux";
+import CommentsList from "../Comments/Comments";
+import ReportModal from "./Report";
 
-function CommentsList({ post }) {
-  const [comments, setComments] = useState([]);
-  const currentUser = useSelector((state) => state.auth.user);
-  const token = localStorage.getItem("token");
-  const postId = post.id;
-  const userId = localStorage.getItem("userId");
+const FeedItem = ({ post }) => {
+ const [liked, setLiked] = useState(false);
+ const [likeCount, setLikeCount] = useState(0);
+ const [commentCount, setCommentCount] = useState(0);
+ const userId = localStorage.getItem("userId");
+ const [showComments, setShowComments] = useState(false);
+ const [reported, setReported] = useState(() => {
+    const storedReported = localStorage.getItem(`reported_${post.id}`);
+    return storedReported ? JSON.parse(storedReported) : false;
+ });
+ const [showReportModal, setShowReportModal] = useState(false);
 
-  useEffect(() => {
-    const fetchComments = async () => {
+ useEffect(() => {
+    const fetchLikeAndCommentInfo = async () => {
       try {
-        const response = await axios.get(
+        const likeResponse = await axios.get(`${BASE_URL}/likes/`, {
+          params: {
+            postId: post.id,
+            userId: userId,
+          },
+        });
+
+        setLikeCount(likeResponse.data.count);
+        setLiked(likeResponse.data.likedByUser);
+
+        const commentResponse = await axios.get(
           `${BASE_URL}/posts/${post.id}/comments/`
         );
-        const commentsWithReplies = await Promise.all(
-          response.data.map(async (comment) => {
-            const repliesResponse = await axios.get(
-              `${BASE_URL}/comments/${comment.id}/replies/create/${userId}/`
-            );
-            return { ...comment, replies: repliesResponse.data };
-          })
-        );
-        setComments(commentsWithReplies);
+        setCommentCount(commentResponse.data.length);
       } catch (error) {
-        console.error("Error fetching comments:", error);
+        console.error("Error fetching like and comment info:", error);
       }
     };
 
-    fetchComments();
-  }, [post.id, userId]);
+    fetchLikeAndCommentInfo();
+ }, [post, userId]);
 
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
-    const commentText = e.target.comment.value;
-
+ const handleLikeClick = async () => {
+    setLiked(!liked);
     try {
-      const response = await axios.post(
-        `${BASE_URL}/posts/${postId}/comments/create/${userId}/`,
-        { content: commentText },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setComments((prevComments) => [...prevComments, response.data]);
-      e.target.reset();
-    } catch (error) {
-      console.error("Error posting comment:", error);
-    }
-  };
-
-  function ReplyForm({ commentId, userId, onSubmit }) {
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const commentText = e.target.comment.value;
-      try {
-        const response = await axios.post(
-          `${BASE_URL}/comments/${commentId}/replies/create/${userId}/`,
-          { content: commentText },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        onSubmit(response.data);
-        e.target.reset();
-      } catch (error) {
-        console.error("Error posting reply:", error);
+      const response = await axios.post(`${BASE_URL}/likes/`, {
+        postId: post.id,
+        userId: userId,
+      });
+      if (
+        response.data.message === "Like created." ||
+        response.data.message === "Like already exists."
+      ) {
+        setLikeCount(liked ? likeCount - 1 : likeCount + 1);
       }
-    };
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+ };
 
-    return (
-      <form onSubmit={handleSubmit} className="flex items-center">
-      <input
-        type="text"
-        name="comment"
-        placeholder="Write a reply"
-        className="flex-grow py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-      />
-      <button
-        type="submit"
-        className="ml-4 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-      >
-        Reply
-      </button>
-    </form>
-    );
-  }
+ const toggleCommentsVisibility = () => {
+    setShowComments(!showComments);
+ };
 
-  return (
-    <div className="w-full bg-white p-4 rounded-lg flex flex-col gap-4 m-4">
-      <div className="writebox">
-        <form onSubmit={handleCommentSubmit} className="flex flex-col">
-          <div className="flex items-center">
-            {currentUser && currentUser.user_profile ? (
-              <img
-                src={`${BASE_URL}${currentUser.user_profile.profile_image}`}
-                alt=""
-                className="rounded-full w-8 h-8 mr-2"
-              />
-            ) : null}
-            <input
-              type="text"
-              name="comment"
-              placeholder="Write a comment"
-              className="flex-grow py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button
-              type="submit"
-              className="ml-2 py-1 px-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            >
-              Comment
-            </button>
-          </div>
-        </form>
+ const handleReportClick = () => {
+    setShowReportModal(true);
+ };
+
+ const handleCloseModal = () => {
+    setShowReportModal(false);
+ };
+
+ const handleReportSuccess = () => {
+    setReported(true);
+    localStorage.setItem(`reported_${post.id}`, JSON.stringify(true));
+    setShowReportModal(false);
+ };
+
+ // Function to ensure the URL uses HTTPS
+ const ensureHttps = (url) => {
+    if (!url.startsWith('https://')) {
+      return url.replace('http://', 'https://');
+    }
+    return url;
+ };
+
+ return (
+    <div className="bg-white shadow rounded-lg p-4 my-4">
+      {/* User Profile Section */}
+      <div className="flex items-center">
+        {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
+          <img
+            src={ensureHttps(`${BASE_URL}${post.user.userprofile.profile_image}`)}
+            alt={`Profile image of ${post.user.username}`}
+            className="w-10 h-10 rounded-full mr-4" // Adjust the size and styling as needed
+          />
+        )}
+        {post.user && <p className="font-bold text-lg">{post.user.username}</p>}
+        <small style={{ marginLeft: "10px" }}>
+          {new Date(post.created_at).toLocaleString()}
+        </small>
       </div>
-      {comments.length === 0 ? (
-        <p className="text-center">No comments yet.</p>
-      ) : (
 
-        comments.map((comment) => (
-          <div key={comment.id} className="flex flex-col mb-4">
-            <div className="flex items-center">
-              {comment.user && comment.user.userprofile ? (
-                <img
-                  src={`${comment.user.userprofile.profile_image}`}
-                  alt=""
-                  className="rounded-full w-8 h-8 mr-2"
-                />
-              ) : null}
-              <div>
-                <h5 className="font-semibold text-sm">
-                  {comment.user ? comment.user.username : "Anonymous"}
-                </h5>
-                <p className="text-sm">{comment.content}</p>
-              </div>
-            </div>
-            {comment.replies?.map((reply) => (
-              <div key={reply.id} className="flex items-center ml-4 mt-1">
-                {reply.user && reply.user.userprofile ? (
-                  <img
-                    src={`${BASE_URL}${reply.user.userprofile.profile_image}`}
-                    alt=""
-                    className="rounded-full w-8 h-8 mr-2"
-                  />
-                ) : null}
-                <div>
-                  <h5 className="font-semibold text-sm">
-                    {reply.user ? reply.user.username : "Anonymous"}
-                  </h5>
-                  <p className="text-sm">{reply.content}</p>
-                </div>
-              </div>
-            ))}
-            <ReplyForm
-              commentId={comment.id}
-              userId={userId}
-              onSubmit={(newReply) => {
-                setComments(
-                  comments.map((c) =>
-                    c.id === comment.id
-                      ? { ...c, replies: [...c.replies, newReply] }
-                      : c
-                  )
-                );
-              }}
+      <p className="text-gray-700 mb-4">{post.content}</p>
+
+      {/* Render images and videos */}
+      <div className="media">
+        {/* Display Images */}
+        {post.images &&
+          post.images.length > 0 &&
+          post.images.map((imageObj, index) => (
+            <img
+              key={index}
+              src={ensureHttps(`${BASE_URL}${imageObj.images_url}`)}
+              alt={`Image ${index}`}
+              className="media-item"
             />
-          </div>
-        ))
+          ))}
+
+        {/* Display Videos */}
+        {post.videos &&
+          post.videos.length > 0 &&
+          post.videos.map((videoObj, index) => (
+            <video key={index} controls className="media-item">
+              <source src={ensureHttps(`${BASE_URL}${videoObj.video_url}`)} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ))}
+      </div>
+
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex items-center">
+          <button
+            onClick={handleLikeClick}
+            className={`mr-2 px-3 py-1 text-sm font-semibold rounded ${
+              liked ? "text-red-500" : "text-gray-700"
+            } hover:text-red-500`}
+          >
+            <FontAwesomeIcon icon={faHeart} /> {likeCount}
+          </button>
+
+          <button
+            onClick={toggleCommentsVisibility}
+            className="px-3 py-1 text-sm font-semibold rounded text-gray-700 hover:text-gray-500"
+          >
+            <FontAwesomeIcon icon={faComment} /> {commentCount}
+          </button>
+
+          <button
+            onClick={handleReportClick}
+            className="px-3 py-1 text-sm font-semibold rounded text-gray-700 hover:text-gray-500"
+          >
+            <FontAwesomeIcon icon={faExclamationTriangle} />{" "}
+            {reported ? "Reported" : "Report"}
+          </button>
+        </div>
+      </div>
+      {showComments && <CommentsList post={post} />}
+      {showReportModal && (
+        <ReportModal postId={post.id} onClose={handleCloseModal} onSuccess={handleReportSuccess} />
       )}
     </div>
-  );
-}
+ );
+};
 
-export default CommentsList;
+export default FeedItem;
