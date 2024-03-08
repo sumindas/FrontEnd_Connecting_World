@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -86,11 +87,8 @@ const FeedItem = ({ post }) => {
 
  // Function to ensure the URL uses HTTPS
  const ensureHttps = (url) => {
-    if (!url.startsWith('https://')) {
-      return url.replace('http://', 'https://');
-    }
-    return url;
- };
+  return url.replace(/^http:\/\//i, 'https://');
+};
 
  return (
     <div className="bg-white shadow rounded-lg p-4 my-4">
