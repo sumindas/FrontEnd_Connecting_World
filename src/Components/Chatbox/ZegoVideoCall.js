@@ -7,7 +7,7 @@ import { v4 } from 'uuid'
 const ZegoVcall = () => {
   const { userId, id } = useParams();
   const VURL = 'http:localhost:5173'
-  const SOCKET = 'ws://localhost:8000/ws/chat'
+  const SOCKET = 'wss://localhost:8000/ws/chat'
   const navigate = useNavigate();
   const [newMessage, setNewMessage] = useState(
     `${VURL}/meeting/${userId}/${id}`
