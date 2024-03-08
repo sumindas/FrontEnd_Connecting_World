@@ -5,7 +5,7 @@ import { faArrowCircleRight, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Api/api";
 import "./chatbox.css";
-import Swal from 'sweetalert2';
+
 
 
 export default function ChatBox() {

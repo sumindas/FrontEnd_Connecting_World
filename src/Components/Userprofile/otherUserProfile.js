@@ -31,13 +31,13 @@ const OtherUser = () => {
       try {
         // Fetch the user profile
         const response = await axios.get(
-          `http://localhost:8000/userprofile/${id}/`
+          `${BASE_URL}/userprofile/${id}/`
         );
         setUserProfile(response.data);
 
         // Check if the current user is following the user whose profile is being viewed
         const followingResponse = await axios.get(
-          `http://localhost:8000/following/check/${userId}/${id}/`
+          `${BASE_URL}/following/check/${userId}/${id}/`
         );
         console.log("The", followingResponse.data.isFollowing);
         setIsFollowing(followingResponse.data.isFollowing);
@@ -55,7 +55,7 @@ const OtherUser = () => {
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/posts/${id}/`);
+        const response = await axios.get(`${BASE_URL}/posts/${id}/`);
         console.log("resp:", response.data);
         setPosts(response.data);
       } catch (error) {
@@ -72,7 +72,7 @@ const OtherUser = () => {
   const handleFollow = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/following/${userId}/`,
+        `${BASE_URL}/following/${userId}/`,
         { followed: id }
       );
       const followingStatus = response.data.following;

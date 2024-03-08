@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../../Api/api";
 
 
 const formatTimeAgo = (date) => {
@@ -21,7 +22,6 @@ const formatTimeAgo = (date) => {
 const NotificationComponent = () => {
   const [notifications, setNotifications] = useState([]);
   const { id } = useParams();
-  const BASE_URL = "http://localhost:8000";
   const token = localStorage.getItem('token')
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const NotificationComponent = () => {
   }, [id]);
 
   useEffect(() => {
-    const socket = new WebSocket(`WSS://crickstore.shop/ws/notifications/${id}/?token=${token}`);
+    const socket = new WebSocket(`wss://crickstore.shop/ws/chat/${id}/?token=${token}`);
     socket.onopen = (event) => {
       console.log("WebSocket connection opened:", event);
      };
