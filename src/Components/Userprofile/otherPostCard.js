@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -8,23 +7,13 @@ import { useSelector } from "react-redux";
 import CommentsList from "../Comments/Comments";
 
 const PostCard = ({ post }) => {
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [commentCount, setCommentCount] = useState(0);
-  const [showComments, setShowComments] = useState(false);
-  const userId = localStorage.getItem('userId');
+ const [liked, setLiked] = useState(false);
+ const [likeCount, setLikeCount] = useState(0);
+ const [commentCount, setCommentCount] = useState(0);
+ const [showComments, setShowComments] = useState(false);
+ const userId = localStorage.getItem('userId');
 
-  const replacer = (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (cache.includes(value)) {
-        return '[Circular Reference]';
-      }
-      cache.push(value);
-    }
-    return value;
-  };
-
-  useEffect(() => {
+ useEffect(() => {
     const fetchLikeAndCommentInfo = async () => {
       try {
         const likeResponse = await axios.get(`${BASE_URL}/likes/`, {
@@ -47,13 +36,11 @@ const PostCard = ({ post }) => {
     };
 
     fetchLikeAndCommentInfo();
-  }, [post, userId]);
+ }, [post, userId]);
 
-  const handleLikeClick = async () => {
+ const handleLikeClick = async () => {
     setLiked(!liked);
     const dataToSubmit = { postId: post.id, userId: userId };
-
-    console.log("Data to send:", JSON.stringify(dataToSubmit, replacer));
 
     try {
       const response = await axios.post(
@@ -74,18 +61,16 @@ const PostCard = ({ post }) => {
     } catch (error) {
       console.error("Error toggling like:", error);
     }
-  };
+ };
 
-  const cache = [];
-
-  const toggleCommentsVisibility = () => {
+ const toggleCommentsVisibility = () => {
     setShowComments(!showComments);
-  };
+ };
 
-  return (
+ return (
     <div className="bg-white shadow rounded-lg p-4 my-4">
       <div className="flex items-center">
-        {post.user && post.user.userprofile.profile_image && (
+        {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
           <img
             src={`${BASE_URL}${post.user.userprofile.profile_image}`}
             alt={`Profile image of ${post.user.username}`}
@@ -142,7 +127,7 @@ const PostCard = ({ post }) => {
 
       {showComments && <CommentsList post={post} />}
     </div>
-  );
+ );
 };
 
 export default PostCard;
