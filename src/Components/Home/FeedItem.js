@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -85,13 +84,21 @@ const FeedItem = ({ post }) => {
     setShowReportModal(false);
  };
 
+ // Function to ensure the URL uses HTTPS
+ const ensureHttps = (url) => {
+    if (!url.startsWith('https://')) {
+      return url.replace('http://', 'https://');
+    }
+    return url;
+ };
+
  return (
     <div className="bg-white shadow rounded-lg p-4 my-4">
       {/* User Profile Section */}
       <div className="flex items-center">
         {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
           <img
-            src={`${BASE_URL}${post.user.userprofile.profile_image}`}
+            src={ensureHttps(`${BASE_URL}${post.user.userprofile.profile_image}`)}
             alt={`Profile image of ${post.user.username}`}
             className="w-10 h-10 rounded-full mr-4" // Adjust the size and styling as needed
           />
@@ -112,7 +119,7 @@ const FeedItem = ({ post }) => {
           post.images.map((imageObj, index) => (
             <img
               key={index}
-              src={`${BASE_URL}${imageObj.images_url}`}
+              src={ensureHttps(`${BASE_URL}${imageObj.images_url}`)}
               alt={`Image ${index}`}
               className="media-item"
             />
@@ -123,7 +130,7 @@ const FeedItem = ({ post }) => {
           post.videos.length > 0 &&
           post.videos.map((videoObj, index) => (
             <video key={index} controls className="media-item">
-              <source src={`${BASE_URL}${videoObj.video_url}`} type="video/mp4" />
+              <source src={ensureHttps(`${BASE_URL}${videoObj.video_url}`)} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           ))}
