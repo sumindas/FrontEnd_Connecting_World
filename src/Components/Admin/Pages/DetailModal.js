@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import BASE_URL from '../../../Api/api'
+import {BASE_URL} from '../../../Api/api'
 
 const DetailModal = ({ post, show, onClose }) => {
   if (!show) {
