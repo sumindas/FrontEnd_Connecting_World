@@ -68,12 +68,17 @@ const PostCard = ({ post }) => {
     setShowComments(!showComments);
  };
 
+ const ensureHttps = (url) => {
+  return url.replace(/^http:\/\//i, 'https://');
+};
+
+
  return (
     <div className="bg-white shadow rounded-lg p-4 my-4">
       <div className="flex items-center">
         {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
           <img
-            src={`${BASE_URL}${post.user.userprofile.profile_image}`}
+          src={ensureHttps(`${BASE_URL}/${post.user.userprofile.profile_image}`)}
             alt={`Profile image of ${post.user.username}`}
             className="w-10 h-10 rounded-full mr-4" // Adjust the size and styling as needed
           />
@@ -90,7 +95,7 @@ const PostCard = ({ post }) => {
           post.images.map((imageObj, index) => (
             <img
               key={index}
-              src={`${BASE_URL}${imageObj.images_url}`}
+              src={ensureHttps(`${BASE_URL}/${imageObj.images_url}`)}
               alt={`Image ${index}`}
               className="media-item"
             />
@@ -100,10 +105,7 @@ const PostCard = ({ post }) => {
           post.videos.length > 0 &&
           post.videos.map((videoObj, index) => (
             <video key={index} controls className="media-item">
-              <source
-                src={`${BASE_URL}${videoObj.video_url}`}
-                type="video/mp4"
-              />
+              <source src={ensureHttps(`${BASE_URL}${videoObj.video_url}`)} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           ))}
