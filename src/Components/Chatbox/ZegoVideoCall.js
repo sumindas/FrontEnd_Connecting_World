@@ -7,7 +7,6 @@ import { v4 } from 'uuid'
 const ZegoVcall = () => {
   const { userId, id } = useParams();
   const VURL = 'http:localhost:5173'
-  const SOCKET = 'wss://localhost:8000/ws/chat'
   const navigate = useNavigate();
   const [newMessage, setNewMessage] = useState(
     `${VURL}/meeting/${userId}/${id}`
@@ -50,7 +49,7 @@ const ZegoVcall = () => {
   const getSocket = () => {
     let newSocket = null;
     if (userId && token) {
-      newSocket = new WebSocket(`${SOCKET}/${id}/?token=${token}`);
+      newSocket = new WebSocket(`wss://crickstore.shop/ws/chat/${id}/?token=${token}`);
       setSocket(newSocket);
       newSocket.onopen = () => {
         console.log("WebSocket connected");
