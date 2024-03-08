@@ -6,8 +6,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Api/api";
 import "./chatbox.css";
 
-
-
 export default function ChatBox() {
   const [user, setUser] = useState(null);
   const { id } = useParams();
@@ -16,13 +14,12 @@ export default function ChatBox() {
   const socketRef = useRef(null);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
-  const navigate = useNavigate()
-  
- 
+  const navigate = useNavigate();
+
   const handleVcall = useCallback(() => {
     navigate(`/meeting/${userId}/${id}`);
   }, []);
-   
+
   useEffect(() => {
     console.log("Component re-rendered with new messages:", messages);
   }, [messages]);
@@ -48,7 +45,7 @@ export default function ChatBox() {
           }
         );
         setMessages(response.data);
-        console.log(messages,"---------------")
+        console.log(messages, "---------------");
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -62,35 +59,30 @@ export default function ChatBox() {
         socketRef.current = new WebSocket(
           `wss://crickstore.shop/ws/chat/${id}/?token=${token}`
         );
-        
 
         socketRef.current.onmessage = (event) => {
           try {
-             const data = JSON.parse(event.data);
-             console.log("Received message:", data);
-             if (
-               typeof data === "object" &&
-               data.id &&
-               data.chat_room &&
-               data.user &&
-               data.content &&
-               data.timestamp
-             ) {
-               console.log("data.user:", data.user, "--", id);
-               console.log(data.user !== userId, "ooooooooooooo");
-         
-               
-               setMessages((prevMessages) => [...prevMessages, data]);
-         
-              
-             } else {
-               console.error("Unexpected message format:", data);
-             }
+            const data = JSON.parse(event.data);
+            console.log("Received message:", data);
+            if (
+              typeof data === "object" &&
+              data.id &&
+              data.chat_room &&
+              data.user &&
+              data.content &&
+              data.timestamp
+            ) {
+              console.log("data.user:", data.user, "--", id);
+              console.log(data.user !== userId, "ooooooooooooo");
+
+              setMessages((prevMessages) => [...prevMessages, data]);
+            } else {
+              console.error("Unexpected message format:", data);
+            }
           } catch (error) {
-             console.error("Error parsing WebSocket message data:", error);
+            console.error("Error parsing WebSocket message data:", error);
           }
-         };
-         
+        };
 
         socketRef.current.onerror = (error) => {
           console.error("WebSocket error:", error);
@@ -135,26 +127,16 @@ export default function ChatBox() {
     return <div>Loading...</div>;
   }
 
- 
-   
-   
-
   const profileImage = user?.userprofile?.profile_image;
   const fullName = user?.full_name;
   const username = user?.username;
 
-
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  
-
-  
-
 
   return (
     <div className="chat-box">
       <div className="chat-box-top">
-        <Link to = {`/home/user/${id}`}>
+        <Link to={`/home/user/${id}`}>
           <img src={profileImage || ""} alt={fullName || ""} />
         </Link>
         <div className="user-name">
@@ -162,18 +144,19 @@ export default function ChatBox() {
           <h5>{username || ""}</h5>
         </div>
         <div className="call-icons">
-          <label className="btn btn-primary" htmlFor="CFile" onClick={handleVcall}>
+          <label
+            className="btn btn-primary"
+            htmlFor="CFile"
+            onClick={handleVcall}
+          >
             <FontAwesomeIcon icon={faVideo} />
           </label>
         </div>
       </div>
       <div className="chat-box-bottom">
-        <div
-          className="messages flex flex-col-reverse space-y-reverse space-y-4 overflow-y-auto"
-          key={messages.length}
-        >
+        <div className="messages flex flex-col-reverse space-y-reverse space-y-4 overflow-y-auto">
           {messages
-            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) 
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
             .filter(
               (message) =>
                 typeof message === "object" && message.id && message.content
@@ -186,9 +169,8 @@ export default function ChatBox() {
                     ? "bg-blue-500 text-white self-end"
                     : "bg-white text-black self-start"
                 }`}
-              >
-                {message.content}
-              </p>
+                dangerouslySetInnerHTML={{ __html: message.content }} // Render the message content as HTML
+              />
             ))}
         </div>
 
@@ -220,6 +202,3 @@ export default function ChatBox() {
     </div>
   );
 }
-
-
-

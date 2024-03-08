@@ -6,7 +6,7 @@ import { v4 } from 'uuid'
 
 const ZegoVcall = () => {
   const { userId, id } = useParams();
-  const VURL = 'http:localhost:5173'
+  const VURL = 'http://localhost:5173'
   const navigate = useNavigate();
   const [newMessage, setNewMessage] = useState(
     `${VURL}/meeting/${userId}/${id}`
@@ -54,8 +54,9 @@ const ZegoVcall = () => {
       newSocket.onopen = () => {
         console.log("WebSocket connected");
         const data = {
-          message: `Visit this link to join the meet ${newMessage}`,
-        };
+          message: `Visit this link to join the meet: <a href="${newMessage}" target="_blank">${newMessage}</a>`,
+         };
+         
         if (newSocket !== null) {
           // Check if newSocket is not null
           newSocket.send(JSON.stringify(data)); // Send data using newSocket
