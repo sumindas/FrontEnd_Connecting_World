@@ -1,0 +1,128 @@
+.Messages {
+    background: var(--color-card);
+    margin: 20px auto;
+    border-radius: 1rem;
+    padding: 14px;
+}
+
+.message-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.message-search {
+    background: var(--color-bg);
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.message-search input {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.border-div {
+    width: 100%;
+    height: .1rem;
+    background: var(--color-bg);
+    margin-bottom: 1rem;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.message .user {
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+}
+
+.green-active {
+    height: 10px;
+    width: 10px;
+    background: var(--color-primary);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 50%;
+}
+
+.message p {
+    font-size: .9rem;
+}
+
+.online-status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.online-status.green {
+    background-color: green;
+}
+
+.online-status.gray {
+    background-color: gray;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .Messages {
+        padding: 10px;
+    }
+
+    .message-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .message-search {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .message {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .message p {
+        font-size: .8rem;
+    }
+
+    .online-status {
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Messages {
+        padding: 5px;
+    }
+
+    .message-top {
+        gap: 5px;
+    }
+
+    .message-search {
+        padding: 0.5rem;
+    }
+
+    .message p {
+        font-size: .7rem;
+    }
+
+    .online-status {
+        margin-left: 5px;
+    }
+}

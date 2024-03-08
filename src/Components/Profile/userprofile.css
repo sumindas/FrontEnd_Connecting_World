@@ -1,0 +1,113 @@
+/* UserProfileForm.css */
+.user-profile-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--color-card);
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .user-profile-form h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+  }
+  
+  .user-profile-form form {
+    display: grid;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .user-profile-form label {
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+  
+  .user-profile-form input,
+  .user-profile-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    background-color: var(--color-bg);
+    color: var(--text-color);
+  }
+  
+  .user-profile-form button {
+    padding: 10px 20px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .user-profile-form button:hover {
+    opacity: 0.7;
+  }
+  
+  .user-profile-form img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  /* UserProfileSettings.css */
+  .user-profile-settings {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--color-card);
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-profile-settings h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+  }
+  
+  .user-profile-settings form {
+    display: grid;
+    gap: 15px;
+  }
+  
+  .user-profile-settings label {
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+  
+  .user-profile-settings input,
+  .user-profile-settings textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    background-color: var(--color-bg);
+    color: var(--text-color);
+  }
+  
+  .user-profile-settings button {
+    padding: 10px 20px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .user-profile-settings button:hover {
+    opacity: 0.7;
+  }
+  

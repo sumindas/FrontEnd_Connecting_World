@@ -1,0 +1,67 @@
+.leftBar{
+    position: sticky;
+    top: 3.6rem;
+    background: var(--color-card);
+    height: calc(100vh - 3.6rem);
+    overflow: auto;
+}
+.leftBar::-webkit-scrollbar{
+    display: none;
+
+}
+
+.left-container{
+    width: 80%;
+    margin: 0 auto;
+
+}
+.left-container .item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+.menu{
+    margin-top: 15px;
+}
+
+.left-container .item img{
+    width: 28px;
+}
+hr{
+    background: var(--color-border);
+    border: none;
+    height: .4px;
+    margin: 20px;
+}
+.others{
+    color: var(--color-soft);
+    font-size: .9rem;
+}
+
+
+/* leftbar.css */
+.online-status {
+    width:  10px;
+    height:  10px;
+    border-radius:  50%;
+    margin-left:  10px;
+  }
+  
+  .online-status.green {
+    background-color: green;
+  }
+  
+  .online-status.gray {
+    background-color: gray;
+  }
+  
+
+
+
+@media (max-width: 768px) {
+    .leftBar .icon {
+        display: block !important;
+    }
+   }
+

@@ -1,0 +1,94 @@
+.signup{
+    background: var(--color-primary);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.signup .card{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 500px;
+    background: white;
+    border: 1px solid white;
+    border-radius: 2rem;
+    overflow: hidden;
+}
+.signup .card .left{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 20px;
+}
+.signup .card .left p{
+    font-size: .9rem;
+}
+.signup .card span{
+    color: var(--color-primary);
+}
+.signup h2{
+    color: var(--color-primary);
+}
+.signup .card .right{
+    flex: 1;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.signup form input{
+    padding: 1rem 0;
+    width: 90%;
+    background: transparent;
+    border: transparent;
+    outline: none;
+    border-bottom: 1px solid white;
+    margin: 0 auto ;
+    color: white;
+}
+
+.signup form input::placeholder{
+    color: white;
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+
+.signup form .btn{
+    color: var(--color-primary);
+    margin-top: 1rem;
+}
+
+
+.google-btn {   
+    background: white;
+    color: var(--color-primary);
+    padding: 1rem 0;
+    width: 90%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+
+.register-btn{
+    background: white;
+}
+
+@media (max-width:600px) {
+    .signup .card{
+        width: 90%;
+        flex-direction: column;
+    }
+    .signup .card .right{
+        padding-bottom: 20px ;
+    }
+    
+}
