@@ -78,7 +78,7 @@ const PostCard = ({ post }) => {
       <div className="flex items-center">
         {post.user && post.user.userprofile && post.user.userprofile.profile_image && (
           <img
-          src={ensureHttps(`${BASE_URL}/${post.user.userprofile.profile_image}`)}
+          src={ensureHttps(`${BASE_URL}${post.user.userprofile.profile_image}`)}
             alt={`Profile image of ${post.user.username}`}
             className="w-10 h-10 rounded-full mr-4" // Adjust the size and styling as needed
           />
@@ -95,7 +95,7 @@ const PostCard = ({ post }) => {
           post.images.map((imageObj, index) => (
             <img
               key={index}
-              src={ensureHttps(`${BASE_URL}/${imageObj.images_url}`)}
+              src={ensureHttps(`${BASE_URL}${imageObj.images_url}`)}
               alt={`Image ${index}`}
               className="media-item"
             />
