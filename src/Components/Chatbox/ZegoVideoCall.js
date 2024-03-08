@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useRef, useState } from "react";
 import Peer from "simple-peer";
 import { io } from "socket.io-client";

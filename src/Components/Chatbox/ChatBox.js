@@ -132,6 +132,24 @@ export default function ChatBox() {
     return <div>Loading...</div>;
   }
 
+  const handleVideoCall = () => {
+    // Assuming you have the ZeeGo Cloud video call invitation link
+    const zeeGoLink = "https://app.zeego.com/join/<room_id>";
+   
+    // Construct the message
+    const message = {
+       user: userId, // The ID of the current user
+       content: `Video call invitation: ${zeeGoLink}`,
+       timestamp: new Date().toISOString(),
+    };
+   
+    // Send the message
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+       const messageData = JSON.stringify(message);
+       socketRef.current.send(messageData);
+    }
+   };
+   
   
 
   const profileImage = user?.userprofile?.profile_image;
@@ -152,7 +170,7 @@ export default function ChatBox() {
           <h5>{username || ""}</h5>
         </div>
         <div className="call-icons">
-          <label className="btn btn-primary" htmlFor="CFile">
+          <label className="btn btn-primary" htmlFor="CFile" onClick={handleVideoCall}>
             <FontAwesomeIcon icon={faVideo} />
           </label>
         </div>
