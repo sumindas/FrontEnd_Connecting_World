@@ -5,6 +5,7 @@ import { clearError } from '../../Redux/Slice/authSlice';
 import { verifyOtpAsync } from '../../Redux/Actions/authActions';
 import './verify.css';
 import axios from 'axios';
+import { BASE_URL } from '../../Api/api';
 
 const Verification = () => {
  const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Verification = () => {
 
  const handleResend = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/resend_otp/', { email: email });
+      const response = await axios.post(`${BASE_URL}/resend_otp/`, { email: email });
       if (response.status === 200) {
         setResendTime(30); 
         setCanResend(false);

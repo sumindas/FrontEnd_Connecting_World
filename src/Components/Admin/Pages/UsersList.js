@@ -84,6 +84,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ConfirmationModal from './confirmationModal';
+import { BASE_URL } from '../../../Api/api';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -94,7 +95,7 @@ const UsersList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/socialadmin/users/');
+        const response = await axios.get(`${BASE_URL}/socialadmin/users/`);
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -112,12 +113,12 @@ const UsersList = () => {
 
   const handleConfirmation = async () => {
     try {
-      const block_unblock_response = await axios.post(`http://127.0.0.1:8000/socialadmin/block_unblock_user/${selectedUserId}/`);
+      const block_unblock_response = await axios.post(`${BASE_URL}/socialadmin/block_unblock_user/${selectedUserId}/`);
       console.log("Response:",block_unblock_response)
       console.log(`Confirmed ${actionType} for user ${selectedUserId}`);
 
 
-      const response = await axios.get('http://127.0.0.1:8000/socialadmin/users/');
+      const response = await axios.get(`${BASE_URL}/socialadmin/users/`);
       setUsers(response.data);
 
       // Close the modal

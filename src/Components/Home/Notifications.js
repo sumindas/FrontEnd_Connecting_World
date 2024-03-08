@@ -41,7 +41,7 @@ const NotificationComponent = () => {
   }, [id]);
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8000/ws/notifications/${id}/?token=${token}`);
+    const socket = new WebSocket(`ws://${BASE_URL}/ws/notifications/${id}/?token=${token}`);
     socket.onopen = (event) => {
       console.log("WebSocket connection opened:", event);
      };

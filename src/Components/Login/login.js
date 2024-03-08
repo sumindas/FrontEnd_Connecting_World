@@ -14,8 +14,8 @@ function Login() {
  const error = useSelector((state) => state.auth.error);
  const [password, setPassword] = useState('');
  const token = useSelector((state) => state.auth.token);
- const [showModal, setShowModal] = useState(false); // State to manage modal visibility
- const [modalEmail, setModalEmail] = useState(''); // State for modal email input
+ const [showModal, setShowModal] = useState(false); 
+ const [modalEmail, setModalEmail] = useState(''); 
 
  useEffect(() => {
     const storedToken = localStorage.getItem('token');

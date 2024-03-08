@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
+import BASE_URL from '../../../Api/api'
 
 const DetailModal = ({ post, show, onClose }) => {
   if (!show) {
@@ -50,7 +51,7 @@ const DetailModal = ({ post, show, onClose }) => {
                   <div className="mt-4">
                     {post.images &&
                       post.images.map((imageObj, index) => {
-                        const imageUrl = `http://127.0.0.1:8000${imageObj.images_url}`;
+                        const imageUrl = `${BASE_URL}${imageObj.images_url}`;
                         return (
                           <img
                             src={imageUrl}
@@ -62,7 +63,7 @@ const DetailModal = ({ post, show, onClose }) => {
                       })}
                     {post.videos &&
                       post.videos.map((videoObj, index) => {
-                        const videoUrl = `http://127.0.0.1:8000${videoObj.video_url}`;
+                        const videoUrl = `${BASE_URL}${videoObj.video_url}`;
                         return (
                           <video controls key={index} className="mb-2">
                             <source src={videoUrl} type="video/mp4" />

@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
 import ConfirmationModal from "./ConfirmationPost";
 import ReportDropdown from "./ReportDropDown";
+import { BASE_URL } from "../../../Api/api";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -14,7 +15,7 @@ const PostList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/socialadmin/admin/reports/"
+          `${BASE_URL}/socialadmin/admin/reports/`
         );
         console.log(response.data, "----");
         setPosts(response.data);
@@ -43,10 +44,10 @@ const PostList = () => {
     console.log("jjjjjjjjjjjjjjj");
     try {
       await axios.post(
-        `http://127.0.0.1:8000/socialadmin/posts/${selectedPost}/`
+        `${BASE_URL}/socialadmin/posts/${selectedPost}/`
       );
       const response = await axios.get(
-        "http://127.0.0.1:8000/socialadmin/admin/reports/"
+        `${BASE_URL}/socialadmin/admin/reports/`
       );
       setPosts(response.data);
       setShowConfirmationModal(false);

@@ -57,7 +57,7 @@ export default function ChatBox() {
         socketRef.current.readyState === WebSocket.CLOSED
       ) {
         socketRef.current = new WebSocket(
-          `ws://localhost:8000/ws/chat/${id}/?token=${token}`
+          `ws://${BASE_URL}/ws/chat/${id}/?token=${token}`
         );
 
         socketRef.current.onmessage = (event) => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { adminLogin,  } from '../../../Redux/Slice/authSlice';
+import { BASE_URL } from '../../../Api/api';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ const AdminLogin = () => {
     setError(null);
   
     try {
-      const response = await fetch('http://127.0.0.1:8000/socialadmin/', {
+      const response = await fetch(`${BASE_URL}/socialadmin/`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
