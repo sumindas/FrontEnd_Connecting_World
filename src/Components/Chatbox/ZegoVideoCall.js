@@ -7,10 +7,10 @@ import { BASE_URL } from "../../Api/api";
 
 const ZegoVcall = () => {
   const { userId, id } = useParams();
-  const VURL = 'http://localhost:5173'
+  const VURL = 'https://front-end-connecting-world.vercel.app/'
   const navigate = useNavigate();
   const [newMessage, setNewMessage] = useState(
-    `${BASE_URL}/meeting/${userId}/${id}`
+    `${VURL}/meeting/${userId}/${id}`
   );
   const token = localStorage.getItem('token');
   const [socket, setSocket] = useState(null);
