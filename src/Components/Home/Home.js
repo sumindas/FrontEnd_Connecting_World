@@ -7,16 +7,19 @@ import { useDispatch } from 'react-redux';
 import { addPost } from '../../Redux/Slice/postSlice';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import io from 'socket.io-client'
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
   const userId = localStorage.getItem('userId')
   const token = localStorage.getItem('token')
+  const navigate = useNavigate()
    
   useEffect(() => {
-
-    
+    if(!token){
+      navigate('/')
+    } 
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/followed-posts/${userId}/`);
