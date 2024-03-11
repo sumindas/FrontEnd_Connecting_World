@@ -1,13 +1,11 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState, Fragment } from "react";
 import "./userprofile.css";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   faEdit,
-  faFeed,
-  faMessage,
   faSignOut,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,6 +15,7 @@ import axios from "axios";
 import { setUser, userLogout } from "../../Redux/Slice/authSlice";
 import { Transition, Dialog } from "@headlessui/react";
 import { resetState } from "../../Redux/Slice/postSlice";
+import default_profile_image from '../../assets/img/default.jpg'
 
 export default function UserProfile() {
   const dispatch = useDispatch();
@@ -218,7 +217,7 @@ export default function UserProfile() {
             alt=""
           />
         ) : (
-          <img src="" alt="No Profile Photo" />
+          <img src={default_profile_image} alt="default" />
         )}
 
         <div className="user-name">

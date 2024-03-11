@@ -3,10 +3,6 @@ import React, { useState, useEffect } from 'react';
 import FeedItem from './FeedItem';
 import { BASE_URL } from '../../Api/api';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { addPost } from '../../Redux/Slice/postSlice';
-import { w3cwebsocket as W3CWebSocket } from 'websocket';
-import io from 'socket.io-client'
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
