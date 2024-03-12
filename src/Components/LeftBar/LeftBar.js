@@ -8,6 +8,7 @@ import "./leftbar.css";
 import { BASE_URL } from "../../Api/api";
 import Message from "../Message/Message";
 import { useMediaQuery } from 'react-responsive';
+import default_profile_image from '../../assets/img/default.jpg'
 
 export default function LeftBar() {
  const CurrentUser = useSelector((state) => state.auth.user);
@@ -40,7 +41,7 @@ if (!isVisible) {
                  alt="Profile Image"
                  className="profile-image" 
                 />
-              ) : null}
+              ) : <img src={default_profile_image} alt = "default"/> }
               
               {CurrentUser && CurrentUser.user && CurrentUser.user.username ? (
                 <h4 style={{ marginLeft: "10px" }}> {CurrentUser.user.username}</h4>

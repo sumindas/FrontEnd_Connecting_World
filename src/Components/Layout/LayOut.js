@@ -17,14 +17,12 @@ import AdminLogin from '../Admin/Pages/login'
 import Users from '../Admin/Pages/Users'
 import OtherUser from '../Userprofile/otherUserProfile'
 import Posts from '../Admin/Pages/Posts'
-import ChatRoom from '../Chatbox/ChatRoom'
 import NotificationComponent from '../Home/Notifications'
 import PasswordReset from '../Verification/PasswordReset'
 import SinglePostDetails from '../Home/PostDetails'
 import AdminDashboard from '../Admin/Pages/AdminDashboard'
 import PostList from '../Admin/Pages/Reports'
 import { useMediaQuery } from 'react-responsive';
-import NotificationComponent2 from '../Home/NotNew'
 import { useState } from 'react'
 import ZegoVcall from '../Chatbox/ZegoVideoCall'
 
@@ -122,10 +120,6 @@ export default function LayOut() {
         {
           path: 'user/:id', 
           element: <OtherUser />
-        },
-        {
-          path : 'chats/:id',
-          element : <ChatRoom />
         },
         {
           path : 'notificatins/:id',

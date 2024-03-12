@@ -45,7 +45,7 @@ export default function ChatBox() {
           }
         );
         setMessages(response.data);
-        console.log(messages, "---------------");
+        console.log(response.data, "---------------");
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -162,15 +162,19 @@ export default function ChatBox() {
                 typeof message === "object" && message.id && message.content
             )
             .map((message, index) => (
-              <p
+              <div
                 key={message.id}
                 className={`p-2 rounded-lg max-w-xs ${
                   message.user.toString() === userId.toString()
                     ? "bg-blue-500 text-white self-end"
                     : "bg-white text-black self-start"
                 }`}
-                dangerouslySetInnerHTML={{ __html: message.content }} // Render the message content as HTML
-              />
+              >
+                <p dangerouslySetInnerHTML={{ __html: message.content }} />
+                <span className="timestamp text-xs text-gray-500">
+                  {new Date(message.timestamp).toLocaleString()}
+                </span>
+              </div>
             ))}
         </div>
 

@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useRef } from "react";
 import { useMediaQuery } from 'react-responsive';
-import LeftBar from "../LeftBar/LeftBar";
+import default_profile_image from '../../assets/img/default.jpg'
 
 export default function NavBar({toggleLeftBar,toggleRightBar}) {
   const CurrentUser = useSelector((state) => state.auth.user);
@@ -36,6 +36,7 @@ export default function NavBar({toggleLeftBar,toggleRightBar}) {
   const userId = localStorage.getItem("userId");
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  
 
 
 
@@ -172,7 +173,7 @@ export default function NavBar({toggleLeftBar,toggleRightBar}) {
                 alt="Profile Image"
                 className="profile-image"
               />
-            ) : null}
+            ) : <img src={default_profile_image} alt = "default"/> }
             </Link>
             <h4 style={{ marginLeft: "10px" }}>
               {CurrentUser?.user?.username}
