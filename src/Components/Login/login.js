@@ -32,11 +32,17 @@ function Login() {
  }, [token, navigate, dispatch]);
 
  const handleLogin = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    dispatch(login(email, password, navigate));
-    setIsLoading(false);
- };
+  e.preventDefault();
+  setIsLoading(true); 
+  try {
+      await dispatch(login(email, password, navigate)); 
+  } catch (error) {
+      console.error("Login error:", error);
+  } finally {
+      setIsLoading(false); 
+  }
+};
+
 
  const handleForgotPassword = (event) => {
     event.preventDefault()
