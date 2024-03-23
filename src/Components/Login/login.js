@@ -16,6 +16,7 @@ function Login() {
  const token = useSelector((state) => state.auth.token);
  const [showModal, setShowModal] = useState(false); 
  const [modalEmail, setModalEmail] = useState(''); 
+ const [isLoading, setIsLoading] = useState(false);
 
  useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -32,7 +33,9 @@ function Login() {
 
  const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     dispatch(login(email, password, navigate));
+    setIsLoading(false);
  };
 
  const handleForgotPassword = (event) => {
@@ -96,8 +99,9 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p style={{ color: 'white' }}>{error}</p>}
-          <button className='btn login-btn' type='submit'>Login</button>
+          <button className='btn login-btn' type='submit' disabled={isLoading}>Login</button>
           <button className='btn login-btn' onClick={(event) => handleForgotPassword(event)}>Forgot Password?</button>
+          {isLoading && <div className="loading-indicator">Loading...</div>}
         </form>
       </div>
       {showModal && (
@@ -111,8 +115,8 @@ function Login() {
               value={modalEmail}
               onChange={(e) => setModalEmail(e.target.value)}
             />
-            <button className='btn modal-btn' onClick={handleModalSubmit}>Send OTP</button>
-            <button className='btn modal-btn' onClick={() => setShowModal(false)}>Close</button>
+            <button className='btn modal-btn' onClick={handleModalSubmit} disabled={isLoading}>Send OTP</button>
+            <button className='btn modal-btn' onClick={() => setShowModal(false)} disabled={isLoading}>Close</button>
           </div>
         </div>
       )}

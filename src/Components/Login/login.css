@@ -128,7 +128,18 @@
 .modal-btn:hover {
     background: #ddd; 
 }
-
+.loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+   }
+   
 @media (max-width: 600px) {
     .modal-content {
         width: 90%; 
