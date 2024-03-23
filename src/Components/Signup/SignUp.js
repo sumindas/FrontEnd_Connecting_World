@@ -24,11 +24,17 @@ export const SignUp = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    dispatch(signUpAsync(userData, navigate));
-    dispatch(setEmail(userData.email));
-    setIsLoading(false);
-  };
+    setIsLoading(true); // Start loading
+    try {
+       await dispatch(signUpAsync(userData, navigate)); // Wait for the signup action to complete
+       dispatch(setEmail(userData.email)); // Set email after signup is successful
+    } catch (error) {
+       console.error("Signup error:", error);
+    } finally {
+       setIsLoading(false); // End loading
+    }
+   };
+   
 
   return (
     
