@@ -154,38 +154,36 @@ export default function ChatBox() {
         </div>
       </div>
       <div className="chat-box-bottom">
-      <div className="messages flex flex-col-reverse space-y-reverse space-y-4 overflow-y-auto">
- {messages
-    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-    .filter(
-      (message) =>
-        typeof message === "object" && message.id && message.content
-    )
-    .map((message, index) => (
-      <div
-        key={message.id}
-        className={`p-2 rounded-lg max-w-xs ${
-          message.user.toString() === userId.toString()
-            ? "bg-blue-500 text-white self-end"
-            : "bg-white text-black self-start"
-        }`}
-      >
-        <p
-          className={`${
-            message.user.toString() === userId.toString()
-              ? "font-bold text-white" 
-              : "font-bold text-black" 
-          }`}
-          dangerouslySetInnerHTML={{ __html: message.content }}
-        />
-        <span className="timestamp text-xs text-black-500">
-          {new Date(message.timestamp).toLocaleString()}
-        </span>
-      </div>
-    ))}
-</div>
-
-
+        <div className="messages flex flex-col-reverse space-y-reverse space-y-4 overflow-y-auto">
+          {messages
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+            .filter(
+              (message) =>
+                typeof message === "object" && message.id && message.content
+            )
+            .map((message, index) => (
+              <div
+                key={message.id}
+                className={`p-2 rounded-lg max-w-xs ${
+                  message.user.toString() === userId.toString()
+                    ? "bg-blue-500 text-white self-end"
+                    : "bg-white text-black self-start"
+                }`}
+              >
+                <p
+                  className={`${
+                    message.user.toString() === userId.toString()
+                      ? "font-bold text-white"
+                      : "font-bold text-black"
+                  }`}
+                  dangerouslySetInnerHTML={{ __html: message.content }}
+                />
+                <span className="timestamp text-xs text-black-500">
+                  {new Date(message.timestamp).toLocaleString()}
+                </span>
+              </div>
+            ))}
+        </div>
 
         <form
           style={{ marginTop: "20px" }}
